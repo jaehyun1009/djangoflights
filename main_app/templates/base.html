@@ -11,6 +11,11 @@
     <header>
       <a href="/">Django Flights</a>
       <nav>
+        <ul>
+          {% if user.is_authenticated %}
+          {% else %}
+            <li><a href={% url 'home' %}>Login</a></li>
+          {% endif %}
       </nav>
     </header>
     <main>
