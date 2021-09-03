@@ -20,7 +20,7 @@
           {% url 'search' %}
           {% endif %}>
           <img
-            width='120px'
+            width='200px'
             src={% static 'images/logo.png' %}
             alt='Django Flights'
           >
@@ -32,6 +32,8 @@
           <ul class='main-list'>
             <li><a href={% url 'search' %}>Search</a></li>
             {% if user.is_authenticated %}
+              <li><a href="">Your Airports</a></li>
+              <li><a href="">Your Tickets</a></li>
               <li><a href={% url 'logout' %}>Logout</a></li>
             {% else %}
               <li><a href={% url 'home' %}>Login</a></li>

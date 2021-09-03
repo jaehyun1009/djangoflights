@@ -2,10 +2,23 @@
 {% block content %}
 <h1>Search Airport</h1>
 <form method="get">
-  {{form}}
+  <table>
+    {{form.as_table}}
+  </table>
   <button type="submit">Search</button>
 </form>
-{% for c in code %}
-  {{c}}
+{% for result in results %}
+  {% if result.lat and result.lon %}
+    <div>
+      {{result.name}}
+      {{result.iata}}
+      {{result.iso}}
+      {{result.lat}}
+      {{result.lon}}
+    </div>
+    {% if user.is_authenticated %}
+      Add
+    {% endif %}
+  {% endif %}
 {% endfor %}
 {% endblock content %}
