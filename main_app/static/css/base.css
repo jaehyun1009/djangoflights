@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Glory&display=swap');
+
+body {
+  font-family: 'Glory', sans-serif;
+}
+
+.div-base {
+  display: flex;
+  width: 100vh;
+  height: 100vh;
+}
+
+.base-left {
+  background-color: #092E20;
+  padding: 25px;
+}
+
+.main-list {
+  list-style-type: none; 
+}
+
+.main-list > li > a {
+  color: white;
+}
+
+.main-list > li > a:hover {
+  color: lightgreen;
+  text-decoration: none;
+}
+
+.base-right {
+  padding: 25px;
+}

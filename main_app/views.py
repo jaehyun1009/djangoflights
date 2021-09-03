@@ -3,22 +3,31 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
-from .forms import AirportForm
+from .forms import SearchAirportForm
+import requests
 
 class Home(LoginView):
   template_name = 'home.html'
 
 def search(request):
-  return render(request, 'search.html', {'form': AirportForm()})
+  code = None
+  results = None
+  if request.GET.get('code'):
+    code = request.GET.get('code')
+    response = requests.get('https://raw.githubusercontent.com/jbrooksuk/JSON-Airports/master/airports.json')
+  return render(request, 'search.html', {
+    'form': SearchAirportForm(),
+    'code': code
+  })
 
 def get_airport(request):
   if request.method == 'POST':
-    form = AirportForm(request.POST)
+    form = SearchAirportForm(request.POST)
     print(form)
     if form.is_valid():
       return render(request, 'search.html', {'form': form})
   else:
-    form = AirportForm()
+    form = SearchAirportForm()
   return render(request, 'search.html', {'form': form})
 
 @login_required
