@@ -6,7 +6,6 @@ body {
 
 .div-base {
   display: flex;
-  width: 100vw;
   height: 100vh;
 }
 
@@ -16,6 +15,7 @@ body {
 }
 
 .base-right {
+  width: 100vw;
   overflow: scroll;
 }
 

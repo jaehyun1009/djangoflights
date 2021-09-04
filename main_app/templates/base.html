@@ -14,11 +14,7 @@
   <body>
     <div class='div-base'>
       <div class='base-left'>
-        <a href={% if user.is_authenticated %}
-          {% url 'airports_index' %}
-          {% else %}
-          {% url 'search' %}
-          {% endif %}>
+        <a href={% url 'about' %}>
           <img
             width='200px'
             src={% static 'images/logo.png' %}
@@ -32,8 +28,8 @@
           <ul class='main-list'>
             <li><a href={% url 'search' %}>Search</a></li>
             {% if user.is_authenticated %}
-              <li><a href="">Your Airports</a></li>
-              <li><a href="">Your Tickets</a></li>
+              <li><a href={% url 'airports_index' %}>Your Airports</a></li>
+              <li><a href={% url 'tickets_index' %}>Your Tickets</a></li>
               <li><a href={% url 'logout' %}>Logout</a></li>
             {% else %}
               <li><a href={% url 'home' %}>Login</a></li>

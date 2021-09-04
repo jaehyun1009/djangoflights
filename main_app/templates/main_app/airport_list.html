@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Your Airports</h1>
+{% for airport in airports %}
+  <a href={% url 'airports_detail' airport.id %}>{{airport}}</a><br />
+{% endfor %}
+{% endblock content %}

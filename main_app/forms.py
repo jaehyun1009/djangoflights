@@ -4,4 +4,4 @@ from .models import Airport
 class SearchAirportForm(ModelForm):
   class Meta:
     model = Airport
-    fields = ['name', 'code']
+    fields = ['name', 'iata']

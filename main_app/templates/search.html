@@ -5,20 +5,20 @@
   <table>
     {{form.as_table}}
   </table>
-  <button type="submit">Search</button>
+  <button type="submit" class='btn btn-primary'>Search</button>
 </form>
-{% for result in results %}
-  {% if result.lat and result.lon %}
-    <div>
-      {{result.name}}
-      {{result.iata}}
-      {{result.iso}}
-      {{result.lat}}
-      {{result.lon}}
-    </div>
-    {% if user.is_authenticated %}
-      Add
+<div class='card-columns'>
+  {% for result in results %}
+    {% if result.lat and result.lon %}
+      <div class='card'>
+        <div class='card-body'>
+          <p><b>Airport Name:</b><br />{{result.name}}</p>
+          <p><b>Airport Code:</b><br />{{result.iata}}</p>
+          <p><b>Country Code:</b><br />{{result.iso}}</p>
+          <a href={% url 'airports_detail' result.id %}>Details</a>
+        </div>
+      </div>
     {% endif %}
-  {% endif %}
-{% endfor %}
+  {% endfor %}
+<div>
 {% endblock content %}
