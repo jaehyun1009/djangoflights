@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>{{airport.name}}</h1>
-<h2>{{profile}}</h2>
-<form action={% url 'assoc_airport' airport.id profile.id %} method='post'>
-  {% csrf_token %}
-  <button type='submit'>Add</button>
-</form>
+{% if user.is_authenticated %}
+  {% if airport in profile_airport %}
+    <form action={% url 'remove_assoc_airport' airport.id profile.id %} method='post'>
+      {% csrf_token %}
+      <button type='submit'>Remove</button>
+    </form>
+  {% else %}
+    <form action={% url 'assoc_airport' airport.id profile.id %} method='post'>
+      {% csrf_token %}
+      <button type='submit'>Add</button>
+    </form>
+  {% endif %}
+{% endif %}
 {% endblock content %}

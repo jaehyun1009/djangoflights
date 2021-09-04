@@ -59,13 +59,22 @@ def airports_index(request):
   })
 
 def airports_detail(request, airport_id):
+  profile = Profile.objects.get(id=request.user.id)
   return render(request, 'main_app/airport_detail.html', {
     'airport': Airport.objects.get(id=airport_id),
-    'profile': Profile.objects.get(id=request.user.id)
+    'profile': profile,
+    'profile_airport': profile.airport.all()
   })
 
+@login_required
 def assoc_airport(request, airport_id, profile_id):
   Profile.objects.get(id=profile_id).airport.add(airport_id)
+  return redirect('airports_detail', airport_id=airport_id)
+
+@login_required
+def remove_assoc_airport(request, airport_id, profile_id):
+  airport_to_be_removed = Airport.objects.get(id=airport_id)
+  Profile.objects.get(id=profile_id).airport.remove(airport_to_be_removed)
   return redirect('airports_detail', airport_id=airport_id)
 
 def signup(request):
