@@ -59,12 +59,17 @@ def airports_index(request):
   })
 
 def airports_detail(request, airport_id):
-  profile = Profile.objects.get(id=request.user.id)
-  return render(request, 'main_app/airport_detail.html', {
-    'airport': Airport.objects.get(id=airport_id),
-    'profile': profile,
-    'profile_airport': profile.airport.all()
-  })
+  if (request.user.id is not None):
+    profile = Profile.objects.get(id=request.user.id)
+    return render(request, 'main_app/airport_detail.html', {
+      'airport': Airport.objects.get(id=airport_id),
+      'profile': profile,
+      'profile_airport': profile.airport.all()
+    })
+  else:
+    return render(request, 'main_app/airport_detail.html', {
+      'airport': Airport.objects.get(id=airport_id),
+    })
 
 @login_required
 def assoc_airport(request, airport_id, profile_id):
