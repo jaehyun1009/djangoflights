@@ -32,12 +32,13 @@ class Ticket(models.Model):
     choices=CLASSES,
     default=CLASSES[0][0]
   )
+  date = models.DateField()
   origin = models.ManyToManyField(Airport, related_name='origin_airport')
   destination = models.ManyToManyField(Airport, related_name='destination_airport')
   profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
   def __str__(self):
-    return f'Ticket from {self.origin.iata} to {self.destination.iata}'
+    return f'A ${self.price} ticket'
 
   def get_absolute_url(self):
-    return reverse('tickets_detail', kwargs={'ticket_id': self.id})
+    return reverse('tickets_index')
