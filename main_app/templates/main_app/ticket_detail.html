@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
 {{ticket}}
+<p>{{ticket.date}}</p>
+<a href={% url 'tickets_index' %}>Back</a>
 {% endblock content %}

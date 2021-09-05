@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+import datetime
+from dateutil.relativedelta import relativedelta
 
 CLASSES = (
   ('E', 'Economy'),
@@ -19,7 +21,7 @@ class Airport(models.Model):
     return self.name
 
   def get_absolute_url(self):
-    return reverse('airports_detail', kwargs={'airport_id': self.id})
+    return reverse("airports_detail", kwargs={"airport_id": self.id})
 
 class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -32,13 +34,13 @@ class Ticket(models.Model):
     choices=CLASSES,
     default=CLASSES[0][0]
   )
-  date = models.DateField()
+  date = models.DateTimeField(default=datetime.datetime.now()+relativedelta(months=1))
   origin = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='origin_airport')
   destination = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='destination_airport')
   profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
   def __str__(self):
-    return f'Ticket #{self.id}: {self.get_seat_class_display()} ticket from {self.origin.iata} to {self.destination.iata}'
+    return f'Ticket #{self.id}'
 
   def get_absolute_url(self):
-    return reverse('tickets_detail', kwargs={'pk': self.id})
+    return reverse("tickets_detail", kwargs={"pk": self.id})

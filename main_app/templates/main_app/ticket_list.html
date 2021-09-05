@@ -6,6 +6,7 @@
 {% for ticket in ticket_list %}
   {{ticket}}
   <a href={% url 'tickets_detail' ticket.id %}>Details</a>
+  <a href={% url 'tickets_delete' ticket.id %}>Delete</a>
   <br />
 {% endfor %}
 {% endblock content %}

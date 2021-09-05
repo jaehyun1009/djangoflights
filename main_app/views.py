@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, DeleteView
 from .forms import SearchAirportForm
 from .models import Airport, Profile, Ticket
 import requests
@@ -21,8 +21,12 @@ class TicketList(LoginRequiredMixin, ListView):
 class TicketDetail(LoginRequiredMixin, DetailView):
   model = Ticket
 
+class TicketDelete(LoginRequiredMixin, DeleteView):
+  model = Ticket
+  success_url = '/tickets/'
+
 def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
-  radius = 3959.87433
+  radius = 3959.87433 # Radius of Earth in miles
   d_lat = radians(dest_lat - origin_lat)
   d_lon = radians(dest_lon - origin_lon)
   lat1 = radians(origin_lat)
@@ -55,6 +59,8 @@ class TicketCreate(LoginRequiredMixin, CreateView):
     return context
 
   def form_valid(self, form):
+    if form.instance.origin == form.instance.destination:
+      return super().form_invalid(form)
     form.instance.price = calculate_price(form.instance.seat_class, form.instance.origin.lat, form.instance.origin.lon, form.instance.destination.lat, form.instance.destination.lon)
     form.instance.profile = Profile.objects.get(id=self.request.user.id)
     return super().form_valid(form)
