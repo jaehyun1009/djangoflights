@@ -18,32 +18,32 @@ class Home(LoginView):
 class TicketList(LoginRequiredMixin, ListView):
   model = Ticket
 
+def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
+  radius = 3959.87433
+  d_lat = radians(dest_lat - origin_lat)
+  d_lon = radians(dest_lon - origin_lon)
+  lat1 = radians(origin_lat)
+  lat2 = radians(dest_lat)
+  a = sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2
+  c = 2*asin(sqrt(a))
+  return radius*c
+
+def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
+  base = 50
+  modifier = 1
+  if seat_class == 'B':
+    modifier = 1.5
+  if seat_class == 'F':
+    modifier = 3
+  distance = calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon)
+  return base + int(modifier * (distance/500)*log(distance, 1.1))
+
 class TicketCreate(LoginRequiredMixin, CreateView):
   model = Ticket
   fields = ['seat_class', 'date', 'origin', 'destination']
 
-  def calculate_price(self, seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
-
-    base = 50
-    modifier = 1
-
-    if seat_class == 'B':
-      modifier = 3
-    if seat_class == 'F':
-      modifier = 5
-    
-    radius = 3959.87433
-    d_lat = radians(dest_lat - origin_lat)
-    d_lon = radians(dest_lon - origin_lon)
-    lat1 = radians(origin_lat)
-    lat2 = radians(dest_lat)
-    a = sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2
-    c = 2*asin(sqrt(a))
-
-    return base + modifier * int(((radius*c)/500)*log(radius*c, 1.1))
-
   def form_valid(self, form):
-    form.instance.price = self.calculate_price(form.instance.seat_class, 39, -70, 20, -42)
+    form.instance.price = calculate_price(form.instance.seat_class, 39, -70, 20, -42)
     form.instance.profile = Profile.objects.get(id=self.request.user.id)
     return super().form_valid(form)
 
