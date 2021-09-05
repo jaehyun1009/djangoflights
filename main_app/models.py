@@ -33,8 +33,8 @@ class Ticket(models.Model):
     default=CLASSES[0][0]
   )
   date = models.DateField()
-  origin = models.ManyToManyField(Airport, related_name='origin_airport')
-  destination = models.ManyToManyField(Airport, related_name='destination_airport')
+  origin = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='origin_airport')
+  destination = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='destination_airport')
   profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
   def __str__(self):
