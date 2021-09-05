@@ -4,6 +4,8 @@
 <a href={% url 'tickets_create' %}>New Ticket</a>
 <br />
 {% for ticket in ticket_list %}
-  {{ticket}}<br />
+  {{ticket}}
+  <a href={% url 'tickets_detail' ticket.id %}>Details</a>
+  <br />
 {% endfor %}
 {% endblock content %}

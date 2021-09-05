@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView
 from .forms import SearchAirportForm
 from .models import Airport, Profile, Ticket
 import requests
@@ -16,6 +16,9 @@ class Home(LoginView):
   template_name = 'home.html'
 
 class TicketList(LoginRequiredMixin, ListView):
+  model = Ticket
+
+class TicketDetail(LoginRequiredMixin, DetailView):
   model = Ticket
 
 def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
@@ -36,14 +39,23 @@ def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
   if seat_class == 'F':
     modifier = 3
   distance = calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon)
+  if distance == 0:
+    return base
   return base + int(modifier * (distance/500)*log(distance, 1.1))
 
 class TicketCreate(LoginRequiredMixin, CreateView):
   model = Ticket
   fields = ['seat_class', 'date', 'origin', 'destination']
 
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    airports = Profile.objects.get(id=self.request.user.id).airport.all()
+    context['form'].fields['origin'].queryset = airports
+    context['form'].fields['destination'].queryset = airports
+    return context
+
   def form_valid(self, form):
-    form.instance.price = calculate_price(form.instance.seat_class, 39, -70, 20, -42)
+    form.instance.price = calculate_price(form.instance.seat_class, form.instance.origin.lat, form.instance.origin.lon, form.instance.destination.lat, form.instance.destination.lon)
     form.instance.profile = Profile.objects.get(id=self.request.user.id)
     return super().form_valid(form)
 
@@ -82,8 +94,7 @@ def search(request):
   })
 
 def airports_index(request):
-  user = Profile.objects.get(id=request.user.id)
-  airports = user.airport.all()
+  airports = Profile.objects.get(id=request.user.id).airport.all()
   return render(request, 'main_app/airport_list.html', {
     'airports': airports
   })

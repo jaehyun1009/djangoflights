@@ -38,7 +38,7 @@ class Ticket(models.Model):
   profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
   def __str__(self):
-    return f'A ${self.price} ticket'
+    return f'Ticket #{self.id}: {self.get_seat_class_display()} ticket from {self.origin.iata} to {self.destination.iata}'
 
   def get_absolute_url(self):
-    return reverse('tickets_index')
+    return reverse('tickets_detail', kwargs={'pk': self.id})

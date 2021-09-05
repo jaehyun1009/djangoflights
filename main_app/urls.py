@@ -11,5 +11,6 @@ urlpatterns = [
   path('airports/<int:airport_id>/remove_assoc/<int:profile_id>/', views.remove_assoc_airport, name='remove_assoc_airport'),
   path('tickets/', views.TicketList.as_view(), name='tickets_index'),
   path('tickets/create/', views.TicketCreate.as_view(), name='tickets_create'),
+  path('tickets/<int:pk>', views.TicketDetail.as_view(), name='tickets_detail'),
   path('accounts/signup/', views.signup, name='signup')
 ]
