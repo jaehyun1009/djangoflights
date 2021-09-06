@@ -13,21 +13,9 @@ from math import radians, cos, sin, asin, sqrt, log
 import re
 import requests
 
-class Home(LoginView):
-  template_name = 'home.html'
-
-class TicketList(LoginRequiredMixin, ListView):
-  model = Ticket
-
-class TicketDetail(LoginRequiredMixin, DetailView):
-  model = Ticket
-
-class TicketDelete(LoginRequiredMixin, DeleteView):
-  model = Ticket
-  success_url = '/tickets/'
-
+# Source: https://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points
 def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
-  radius = 3959.87433 # Radius of Earth in miles
+  radius = 3959.87433
   d_lat = radians(dest_lat - origin_lat)
   d_lon = radians(dest_lon - origin_lon)
   lat1 = radians(origin_lat)
@@ -47,6 +35,26 @@ def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
   if distance == 0:
     return base
   return base + int(modifier * (distance/500)*log(distance, 1.1))
+
+class Home(LoginView):
+  template_name = 'home.html'
+
+class TicketList(LoginRequiredMixin, ListView):
+  model = Ticket
+
+class TicketDetail(LoginRequiredMixin, DetailView):
+  model = Ticket
+
+  def get_context_data(self, **kwargs):
+    context = super(TicketDetail, self).get_context_data(**kwargs)
+    origin = context['object'].origin
+    dest = context['object'].destination
+    context['distance'] = round(calculate_distance(origin.lat, origin.lon, dest.lat, dest.lon),2)
+    return context
+
+class TicketDelete(LoginRequiredMixin, DeleteView):
+  model = Ticket
+  success_url = '/tickets/'
 
 class TicketCreate(LoginRequiredMixin, CreateView):
   model = Ticket

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-{{ticket}}
-<p>{{ticket.date}}</p>
+<h1>{{ticket}} ({{ticket.origin.iata}}-{{ticket.destination.iata}})<h1>
+<p>Departs {{ticket.date}}</p>
+<h3>The distance between two airports is {{distance}} miles.</h3>
+<h2>Seat: <b>{{ticket.seat}}</b> Class: <b>{{ticket.get_seat_class_display}}</b> Price: <b>${{ticket.price}}</b></h2>
 <a href={% url 'tickets_index' %} class='btn btn-dark' role='button'>Back</a>
+<a href={% url 'tickets_delete' ticket.id %} class='btn btn-danger' role='button'>Delete</a>
 {% endblock content %}

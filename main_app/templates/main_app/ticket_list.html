@@ -4,11 +4,18 @@
 <a href={% url 'tickets_create' %} class='btn btn-primary' role='button'>New Ticket</a>
 <br />
 <br />
-{% for ticket in ticket_list %}
-  {{ticket}}
-  <a href={% url 'tickets_detail' ticket.id %} class='btn btn-info' role='button'>Details</a>
-  <a href={% url 'tickets_delete' ticket.id %} class='btn btn-danger' role='button'>Delete</a>
-  <br />
-  <br />
-{% endfor %}
+<div class='row'>
+  {% for ticket in ticket_list %}
+    <div class='col-sm-4'>
+      <div class='card'>
+        <div class='card-body'>
+          <p><b>{{ticket}}</b> from {{ticket.origin.iata}} to {{ticket.destination.iata}}</p>
+          <p>Departing <b>{{ticket.date}}</b></p>
+          <p><b>Seat:</b> {{ticket.seat}}&nbsp;<b>Class:</b> {{ticket.get_seat_class_display}}</p>
+          <a href={% url 'tickets_detail' ticket.id %} class='btn btn-info' role='button'>Details</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
 {% endblock content %}

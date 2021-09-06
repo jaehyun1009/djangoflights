@@ -32,7 +32,7 @@ class Ticket(models.Model):
     max_length=3,
     validators=[
       RegexValidator('^0[1-4][A-D]|0[5-9][A-G]|1[0-5][A-G]|1[6-9][A-J]|2[0-9][A-J]|3[0-4][A-J]$',
-        message='Please follow the instructions in picking a seat number.',
+        message='Please follow instructions on picking a seat number.',
         code='invalid_seat'
       )
     ]
