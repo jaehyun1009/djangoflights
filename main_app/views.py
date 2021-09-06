@@ -125,6 +125,18 @@ def airports_index(request):
 def k_to_f(k):
   return int((k - 273.15)*(9/5)+32)
 
+def get_index(idx):
+  level = 'Good'
+  if idx == 2:
+    level = 'Moderate'
+  elif idx == 3:
+    level = 'Poor'
+  elif idx == 4:
+    level = 'Unhealthy'
+  elif idx == 5:
+    level = 'Very Unhealthy'
+  return level
+
 def airports_detail(request, airport_id):
   if (request.user.id is not None):
     profile = Profile.objects.get(id=request.user.id)
@@ -139,18 +151,10 @@ def airports_detail(request, airport_id):
       'temp_min': k_to_f(airport_details['main']['temp_min']),
       'temp_max': k_to_f(airport_details['main']['temp_max'])
     }
-    sunrise = 0
-    sunset = 0
+    sunrise = datetime.fromtimestamp(airport_details['sys']['sunrise'] + airport_details['timezone']).strftime('%I:%M %p')
+    sunset = datetime.fromtimestamp(airport_details['sys']['sunset'] + airport_details['timezone']).strftime('%I:%M %p')
     air_pollution_index = air_pollution['list'][0]['main']['aqi']
-    air_pollution_level = 'Good'
-    if air_pollution_index == 2:
-      air_pollution_level = 'Moderate'
-    elif air_pollution_index == 3:
-      air_pollution_level = 'Poor'
-    elif air_pollution_index == 4:
-      air_pollution_level = 'Unhealthy'
-    elif air_pollution_index == 5:
-      air_pollution_level = 'Very Unhealthy'
+    air_pollution_level = get_index(air_pollution_index)
     return render(request, 'main_app/airport_detail.html', {
       'profile': profile,
       'profile_airport': profile.airport.all(),

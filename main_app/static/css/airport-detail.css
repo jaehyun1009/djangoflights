@@ -1,28 +1,55 @@
-.total {
+.total-airport {
   display: flex;
-}
-
-.upper-half-airport {
-
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
 }
 
 .lower-half-airport {
-
+  width: 72vw;
+  display: flex;
+  justify-content: space-between;
 }
 
 .airport-name {
   background-color: rgba(0, 0, 0, 0.8);
   color: white;
-  width: 70vw;
+  width: 72vw;
+  padding: 15px;
+  margin: 15px;
   text-align: center;
 }
 
 .weather {
   background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
-  width: 35vw;
+  width: 30vw;
 }
+
+.upper-weather {
+  text-align: center;
+}
+
+.lower-weather {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .pollution {
   padding: 20px;
-  width: 25vw;
+  width: 40vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.pollution-left {
+  width: 250px;
+  text-align: center;
+}
+
+.airport-button {
+  margin: 10px;
 }

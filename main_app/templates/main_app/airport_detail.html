@@ -8,80 +8,93 @@
 />
 {% endblock head %}
 {% block content %}
-<div class='airport-name'>
-  <h1 style="font-size:8em;">{{airport.iata}}</h1>
-  <h1>{{airport}}</h1>
-</div>
-<div class='weather'>
-  <h4>Location: {{airport_details.name}}, {{airport_details.sys.country}}</h4>
-  <img src={{img_url}} alt='Weather Icon'/>
-  <h4>{{airport_details.weather.0.main}}</h4>
-  <h5>Temperature: {{temps.temp}}°F</h5>
-  <h5>Feels Like: {{temps.feels_like}}°F</h5>
-  <h5>Sunrise: {{sunrise}}</h5>
-  <h5>Sunset: {{sunset}}</h5>
-  Details
-  <div>
-    Day High: {{temps.temp_max}}°F<br />
-    Day Low: {{temps.temp_min}}°F<br />
-    Air Pressure: {{airport_details.main.pressure}}hPa<br />
-    Humidity: {{airport_details.main.humidity}}%<br />
-    Visibility: {{airport_details.visibility}}km
+<div class='total-airport'>
+  <div class='airport-name'>
+    <h1 style="font-size:8em;">{{airport.iata}}</h1>
+    <h1>{{airport}}</h1>
   </div>
-</div>
-<div class='pollution'
-  {% if air_pollution_index == 1 %}
-    style='background-color: rgba(144, 238, 144, 0.8);'
-  {% elif air_pollution_index == 2 %}
-    style='background-color: rgba(255, 225, 0, 0.8);'
-  {% elif air_pollution_index == 3 %}
-    style='background-color: rgba(255, 165, 0, 0.8);'
-  {% elif air_pollution_index == 4 %}
-    style='background-color: rgba(255, 0, 0, 0.8); color: white;'
-  {% else %}
-    style='background-color: rgba(139, 0, 139, 0.8); color: white;'
-  {% endif %}
->
-  <h2>AQI Index</h2>
-  <img
-    {% if air_pollution_index == 1 %}
-      src={% static 'images/ap1.svg' %}
-    {% elif air_pollution_index == 2 %}
-      src={% static 'images/ap2.svg' %}
-    {% elif air_pollution_index == 3 %}
-      src={% static 'images/ap3.svg' %}
-    {% elif air_pollution_index == 4 %}
-      src={% static 'images/ap4.svg' %}
-    {% else %}
-      src={% static 'images/ap5.svg' %}
+  <div class='lower-half-airport'>
+    <div class='weather'>
+      <div class='upper-weather'>
+        <h2>Location: {{airport_details.name}}, {{airport_details.sys.country}}</h2>
+        <img src={{img_url}} alt='Weather Icon'/>
+        <h4>{{airport_details.weather.0.main}}</h4>
+      </div>
+      <div class='lower-weather'>
+        <div>
+          <h5>Temperature: {{temps.temp}}°F</h5>
+          <h5>Feels Like: {{temps.feels_like}}°F</h5>
+          <h5>Sunrise: {{sunrise}}</h5>
+          <h5>Sunset: {{sunset}}</h5>
+        </div>
+        <div>
+          Day High: {{temps.temp_max}}°F<br />
+          Day Low: {{temps.temp_min}}°F<br />
+          Air Pressure: {{airport_details.main.pressure}}hPa<br />
+          Humidity: {{airport_details.main.humidity}}%<br />
+          Visibility: {{airport_details.visibility}}km
+        </div>
+      </div>
+    </div>
+    <div class='pollution'
+      {% if air_pollution_index == 1 %}
+        style='background-color: rgba(144, 238, 144, 0.8);'
+      {% elif air_pollution_index == 2 %}
+        style='background-color: rgba(255, 225, 0, 0.8);'
+      {% elif air_pollution_index == 3 %}
+        style='background-color: rgba(255, 165, 0, 0.8);'
+      {% elif air_pollution_index == 4 %}
+        style='background-color: rgba(255, 0, 0, 0.8); color: white;'
+      {% else %}
+        style='background-color: rgba(139, 0, 139, 0.8); color: white;'
+      {% endif %}
+    >
+      <div class='pollution-left'>
+        <h2>AQI Index</h2>
+        <img
+          {% if air_pollution_index == 1 %}
+            src={% static 'images/ap1.svg' %}
+          {% elif air_pollution_index == 2 %}
+            src={% static 'images/ap2.svg' %}
+          {% elif air_pollution_index == 3 %}
+            src={% static 'images/ap3.svg' %}
+          {% elif air_pollution_index == 4 %}
+            src={% static 'images/ap4.svg' %}
+          {% else %}
+            src={% static 'images/ap5.svg' %}
+          {% endif %}
+          width='200px'
+          alt='air pollution level'
+        ><br />
+        <h3>{{air_pollution_level}}</h3>
+      </div>
+      <div>
+        <h5>Air Pollution Indexes (μg/m<sup>3</sup>)</h5><br />
+        Carbon monoxide (CO): {{air_pollution.list.0.components.co}}<br />
+        Nitrogen monoxide (NO): {{air_pollution.list.0.components.no}}<br />
+        Nitrogen dioxide (NO<sub>2</sub>): {{air_pollution.list.0.components.no2}}<br />
+        Ozone (O<sub>3</sub>): {{air_pollution.list.0.components.o3}}<br />
+        Sulphur dioxide (SO<sub>2</sub>): {{air_pollution.list.0.components.so2}}<br />
+        Fine particles (PM<sub>2.5</sub>): {{air_pollution.list.0.components.pm2_5}}<br />
+        Coarse particles (PM<sub>10</sub>): {{air_pollution.list.0.components.pm10}}<br />
+        Ammonia (NH<sub>3</sub>): {{air_pollution.list.0.components.nh3}}
+      </div>
+    </div>
+  </div>
+  <div class='airport-button'>
+    {% if user.is_authenticated %}
+      {% if airport in profile_airport %}
+        <form action={% url 'remove_assoc_airport' airport.id profile.id %} method='post'>
+          {% csrf_token %}
+          <button type='submit' class='btn btn-danger'>Remove from your airport list</button>
+        </form>
+      {% else %}
+        <form action={% url 'assoc_airport' airport.id profile.id %} method='post'>
+          {% csrf_token %}
+          <button type='submit' class='btn btn-primary'>Add to your airport list</button>
+        </form>
+      {% endif %}
     {% endif %}
-    width='200px'
-    alt='air pollution level'
-  ><br />
-  <h3>{{air_pollution_level}}</h3>
-  Air Pollution Indexes (in μg/m<sup>3</sup>)<br />
-  <div>
-    Carbon monoxide (CO): {{air_pollution.list.0.components.co}}<br />
-    Nitrogen monoxide (NO): {{air_pollution.list.0.components.no}}<br />
-    Nitrogen dioxide (NO<sub>2</sub>): {{air_pollution.list.0.components.no2}}<br />
-    Ozone (O<sub>3</sub>): {{air_pollution.list.0.components.o3}}<br />
-    Sulphur dioxide (SO<sub>2</sub>): {{air_pollution.list.0.components.so2}}<br />
-    Fine particles (PM<sub>2.5</sub>): {{air_pollution.list.0.components.pm2_5}}<br />
-    Coarse particles (PM<sub>10</sub>): {{air_pollution.list.0.components.pm10}}<br />
-    Ammonia (NH<sub>3</sub>): {{air_pollution.list.0.components.nh3}}
   </div>
 </div>
-{% if user.is_authenticated %}
-  {% if airport in profile_airport %}
-    <form action={% url 'remove_assoc_airport' airport.id profile.id %} method='post'>
-      {% csrf_token %}
-      <button type='submit' class='btn btn-danger'>Remove from your airport list</button>
-    </form>
-  {% else %}
-    <form action={% url 'assoc_airport' airport.id profile.id %} method='post'>
-      {% csrf_token %}
-      <button type='submit' class='btn btn-primary'>Add to your airport list</button>
-    </form>
-  {% endif %}
-{% endif %}
 {% endblock content %}
