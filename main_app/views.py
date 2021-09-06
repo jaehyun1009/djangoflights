@@ -32,9 +32,7 @@ def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
   if seat_class == 'F':
     modifier = 3
   distance = calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon)
-  if distance == 0:
-    return base
-  return base + int(modifier * (distance/500)*log(distance, 1.1))
+  return base + int(modifier * distance/10)
 
 class Home(LoginView):
   template_name = 'home.html'
