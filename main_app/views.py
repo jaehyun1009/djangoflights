@@ -127,10 +127,21 @@ def airports_detail(request, airport_id):
     airport = Airport.objects.get(id=airport_id)
     airport_details = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
     air_pollution = requests.get(f'http://api.openweathermap.org/data/2.5/air_pollution?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
+    air_pollution_index = air_pollution['list'][0]['main']['aqi']
+    air_pollution_level = 'Good'
+    if air_pollution_index == 2:
+      air_pollution_level = 'Fair'
+    elif air_pollution_index == 3:
+      air_pollution_level = 'Moderate'
+    elif air_pollution_index == 4:
+      air_pollution_level = 'Poor'
+    elif air_pollution_index == 5:
+      air_pollution_level = 'Very Poor'
     return render(request, 'main_app/airport_detail.html', {
       'airport': airport,
       'airport_details': airport_details,
       'air_pollution': air_pollution,
+      'air_pollution_level': air_pollution_level,
       'profile': profile,
       'profile_airport': profile.airport.all()
     })

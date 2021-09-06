@@ -1,9 +1,44 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/airport-detail.css' %}"
+/>
+{% endblock head %}
 {% block content %}
 <h1 style="font-size:8em;">{{airport.iata}}</h1>
 <h1>{{airport}}</h1>
-{{airport_details}}
-{{air_pollution}}
+<div>
+  <h3>Location: {{airport_details.name}}, {{airport_details.sys.country}}</h3>
+  Weather: {{airport_details.weather.0.main}}<br />
+  Temperature: {{airport_details.main.temp}}<br />
+  Feels Like: {{airport_details.main.feels_like}}<br />
+  Sunrise: {{airport_details.sys.sunrise|add:airport_details.timezone}}<br />
+  Sunset: {{airport_details.sys.sunset|add:airport_details.timezone}}<br />
+  <div>
+    Day High: {{airport_details.main.temp_min}}<br />
+    Day Low: {{airport_details.main.temp_max}}<br />
+    Air Pressure: {{airport_details.main.pressure}}<br />
+    Humidity: {{airport_details.main.humidity}}<br />
+    Visibility: {{airport_details.visibility}}
+  </div>
+</div>
+<div>
+  <h3>AQI Level: {{air_pollution.list.0.main.aqi}} ({{air_pollution_level}})</h3>
+  Air Pollution Indexes (μg/m<sup>3</sup>)<br />
+  <div>
+    Carbon monoxide: {{air_pollution.list.0.components.co}}<br />
+    Nitrogen monoxide: {{air_pollution.list.0.components.no}}<br />
+    Nitrogen dioxide: {{air_pollution.list.0.components.no2}}<br />
+    Ozone: {{air_pollution.list.0.components.o3}}<br />
+    Sulphur dioxide: {{air_pollution.list.0.components.so2}}<br />
+    PM<sub>2.5</sub>: {{air_pollution.list.0.components.pm2_5}}<br />
+    PM<sub>10</sub>: {{air_pollution.list.0.components.pm10}}<br />
+    Ammonia: {{air_pollution.list.0.components.nh3}}
+  </div>
+</div>
 {% if user.is_authenticated %}
   {% if airport in profile_airport %}
     <form action={% url 'remove_assoc_airport' airport.id profile.id %} method='post'>
