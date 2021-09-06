@@ -1,18 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Your Airports</h1>
-<div class='row'>
-  {% for airport in airports %}
-    <div class='col-sm-4'>
-      <div class='card'>
-        <div class='card-body'>
-          <p><b>{{airport.name}}</b></p>
-          <p><b>Airport Code:</b><br />{{airport.iata}}</p>
-          <p><b>Country Code:</b><br />{{airport.iso}}</p>
-          <a href={% url 'airports_detail' airport.id %} class='btn btn-info' role='button'>Details</a>
-        </div>
-      </div>
-    </div>
-  {% endfor %}
-</div>
+<table class='table'>
+  <thead>
+    <tr>
+      <th scope='col'>Airport Name</th>
+      <th scope='col'>Airport Code</th>
+      <th scope='col'>Country Code</th>
+      <th scope='col'></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for airport in airports %}
+      <tr>
+        <th scope='row'>{{airport.name}}</th>
+        <td>{{airport.iata}}</td>
+        <td>{{airport.iso}}</td>
+        <td><a href={% url 'airports_detail' airport.id %} class='btn btn-info btn-sm' role='button'>Details</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock content %}
