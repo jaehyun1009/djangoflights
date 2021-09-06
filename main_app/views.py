@@ -8,10 +8,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, DetailView, DeleteView
 from .forms import SearchAirportForm
 from .models import Airport, Profile, Ticket
-import requests
 from decimal import Decimal
 from math import radians, cos, sin, asin, sqrt, log
 import re
+import requests
 
 class Home(LoginView):
   template_name = 'home.html'
@@ -105,6 +105,7 @@ def search(request):
     'results': send_results
   })
 
+@login_required
 def airports_index(request):
   airports = Profile.objects.get(id=request.user.id).airport.all()
   return render(request, 'main_app/airport_list.html', {
