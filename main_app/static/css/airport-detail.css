@@ -13,18 +13,21 @@
 }
 
 .airport-name {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(9, 46, 32, 0.8);
   color: white;
   width: 72vw;
-  padding: 15px;
+  padding: 15px 15px 25px 15px;
   margin: 15px;
+  border-radius: 50px;
   text-align: center;
 }
 
 .weather {
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
   width: 30vw;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 3px 3px #666;
 }
 
 .upper-weather {
@@ -38,8 +41,10 @@
 }
 
 .pollution {
-  padding: 20px;
   width: 40vw;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 3px 3px #666;
   display: flex;
   justify-content: space-around;
   align-items: center;

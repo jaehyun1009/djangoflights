@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/list.css' %}"
+/>
+{% endblock head %}
 {% block content %}
-<h1>Your Airports</h1>
+<h1><span>Your Airports</span></h1>
+<br />
 <table class='table'>
   <thead>
     <tr>

@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/list.css' %}"
+/>
+{% endblock head %}
 {% block content %}
-<h1>Your Tickets</h1>
+<h1><span>Your Tickets</span></h1>
 <a href={% url 'tickets_create' %} class='btn btn-primary' role='button'>New Ticket</a>
 <br />
 <br />
@@ -21,7 +29,7 @@
     {% for ticket in ticket_list %}
       <tr
         {% if not todays_date < ticket.date|date:"Y-m-d" %}
-          style='color:red;'
+          class='bg-danger'
         {% endif %}
       >
         <th scope='row'>{{ticket.id}}</th>

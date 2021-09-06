@@ -17,7 +17,7 @@
     <button type="submit" class='btn btn-success search-airport-button'>Search</button>
   </form>
 </div>
-<div class='card-columns'>
+<div class='card-columns airport-results'>
   {% for result in results %}
     {% if result.lat and result.lon %}
       <div class='card' style="background-color: rgba(255, 255, 255, 0.8);">
