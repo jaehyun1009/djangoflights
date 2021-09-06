@@ -6,11 +6,23 @@
 <script defer src="{% static 'js/ticket-form.js' %}"></script>
 {% endblock head %}
 {% block content %}
-<form action='' method="post">
-  {% csrf_token %}
-  <table>
-    {{form.as_table}}
-  </table>
-  <button type="submit">Submit</button>
-</form>
+<div>
+  <h1>New Ticket</h1>
+  <form action='' method="post">
+    {% csrf_token %}
+    <table>
+      {{form.as_table}}
+    </table>
+    <button type="submit" class='btn btn-success'>Submit</button>
+  </form>
+</div>
+<div>
+  <h2>Seat Number Instructions</h2>
+  <01-04, A-D: First class<br />
+  05-15, A-G: Business <br />
+  16-34, A-J: Economy<br />
+  <b>Seats numbered less than 10 must have a 0 in front</b><br />
+  <b>Seat numbers are case sensitive.</b><br />
+  Examples of seat numbers: 03B, 05C, 13F, 20H, 31A<br />
+</div>
 {% endblock %}

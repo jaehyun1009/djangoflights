@@ -2,5 +2,5 @@
 {% block content %}
 {{ticket}}
 <p>{{ticket.date}}</p>
-<a href={% url 'tickets_index' %}>Back</a>
+<a href={% url 'tickets_index' %} class='btn btn-dark' role='button'>Back</a>
 {% endblock content %}

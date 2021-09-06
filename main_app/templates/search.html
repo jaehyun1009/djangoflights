@@ -5,7 +5,7 @@
   <table>
     {{form.as_table}}
   </table>
-  <button type="submit" class='btn btn-primary'>Search</button>
+  <button type="submit" class='btn btn-success'>Search</button>
 </form>
 <br />
 <div class='card-columns'>
@@ -16,7 +16,7 @@
           <p><b>Airport Name:</b><br />{{result.name}}</p>
           <p><b>Airport Code:</b><br />{{result.iata}}</p>
           <p><b>Country Code:</b><br />{{result.iso}}</p>
-          <a href={% url 'airports_detail' result.id %}>Details</a>
+          <a href={% url 'airports_detail' result.id %} class='btn btn-info' role='button'>Details</a>
         </div>
       </div>
     {% endif %}

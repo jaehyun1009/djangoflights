@@ -6,12 +6,12 @@
   {% if airport in profile_airport %}
     <form action={% url 'remove_assoc_airport' airport.id profile.id %} method='post'>
       {% csrf_token %}
-      <button type='submit'>Remove from your airport list</button>
+      <button type='submit' class='btn btn-danger'>Remove from your airport list</button>
     </form>
   {% else %}
     <form action={% url 'assoc_airport' airport.id profile.id %} method='post'>
       {% csrf_token %}
-      <button type='submit'>Add to your airport list</button>
+      <button type='submit' class='btn btn-primary'>Add to your airport list</button>
     </form>
   {% endif %}
 {% endif %}
