@@ -11,6 +11,7 @@ from .models import Airport, Profile, Ticket
 import requests
 from decimal import Decimal
 from math import radians, cos, sin, asin, sqrt, log
+import re
 
 class Home(LoginView):
   template_name = 'home.html'
@@ -49,7 +50,7 @@ def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
 
 class TicketCreate(LoginRequiredMixin, CreateView):
   model = Ticket
-  fields = ['seat_class', 'date', 'origin', 'destination']
+  fields = ['seat', 'date', 'origin', 'destination']
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -61,6 +62,11 @@ class TicketCreate(LoginRequiredMixin, CreateView):
   def form_valid(self, form):
     if form.instance.origin == form.instance.destination:
       return super().form_invalid(form)
+    form.instance.seat_class = 'E'
+    if re.search(r'0[1-4][A-D]', form.instance.seat):
+      form.instance.seat_class = 'F'
+    if re.search(r'0[5-9][A-G]|1[0-5][A-G]', form.instance.seat):
+      form.instance.seat_class = 'B'
     form.instance.price = calculate_price(form.instance.seat_class, form.instance.origin.lat, form.instance.origin.lon, form.instance.destination.lat, form.instance.destination.lon)
     form.instance.profile = Profile.objects.get(id=self.request.user.id)
     return super().form_valid(form)

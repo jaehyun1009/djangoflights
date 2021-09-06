@@ -1,8 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
-import datetime
-from dateutil.relativedelta import relativedelta
+from django.core.validators import RegexValidator
 
 CLASSES = (
   ('E', 'Economy'),
@@ -29,12 +28,21 @@ class Profile(models.Model):
 
 class Ticket(models.Model):
   price = models.IntegerField()
+  seat = models.CharField(
+    max_length=3,
+    validators=[
+      RegexValidator('^0[1-4][A-D]|0[5-9][A-G]|1[0-5][A-G]|1[6-9][A-J]|[2-3][0-9][A-J]$',
+        message='Please follow the instructions in picking a seat number.',
+        code='invalid_seat'
+      )
+    ]
+  )
   seat_class = models.CharField(
     max_length=1,
     choices=CLASSES,
-    default=CLASSES[0][0]
+    default=CLASSES[0][0],
   )
-  date = models.DateTimeField(default=datetime.datetime.now()+relativedelta(months=1))
+  date = models.DateTimeField()
   origin = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='origin_airport')
   destination = models.ForeignKey(Airport, on_delete=models.CASCADE, related_name='destination_airport')
   profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
