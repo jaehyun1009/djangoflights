@@ -1,0 +1,21 @@
+.search-airport-form {
+  padding: 25px;
+  margin: 0 25px 25px 25px;
+  border-radius: 25px;
+  width: 35vw;
+  text-align: center;
+  color: white;
+  background-color: rgba(9, 46, 32, 0.8)
+}
+
+.search-airport-form > h1 {
+  font-size: 4em;
+}
+
+.search-airport-form > form {
+  display: inline-block;
+}
+
+.search-airport-button {
+  margin: 10px 0 0 0;
+}

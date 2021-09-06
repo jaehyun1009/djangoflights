@@ -1,17 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/search.css' %}"
+/>
+{% endblock head %}
 {% block content %}
-<h1>Search Airport</h1>
-<form method="get">
-  <table>
-    {{form.as_table}}
-  </table>
-  <button type="submit" class='btn btn-success'>Search</button>
-</form>
-<br />
+<div class='search-airport-form'>
+  <h1>Search Airport</h1>
+  <form method="get">
+    <table>
+      {{form.as_table}}
+    </table>
+    <button type="submit" class='btn btn-success search-airport-button'>Search</button>
+  </form>
+</div>
 <div class='card-columns'>
   {% for result in results %}
     {% if result.lat and result.lon %}
-      <div class='card'>
+      <div class='card' style="background-color: rgba(255, 255, 255, 0.8);">
         <div class='card-body'>
           <p><b>Airport Name:</b><br />{{result.name}}</p>
           <p><b>Airport Code:</b><br />{{result.iata}}</p>
