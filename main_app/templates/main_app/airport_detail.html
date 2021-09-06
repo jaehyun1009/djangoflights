@@ -2,6 +2,8 @@
 {% block content %}
 <h1 style="font-size:8em;">{{airport.iata}}</h1>
 <h1>{{airport}}</h1>
+{{airport_details}}
+{{air_pollution}}
 {% if user.is_authenticated %}
   {% if airport in profile_airport %}
     <form action={% url 'remove_assoc_airport' airport.id profile.id %} method='post'>

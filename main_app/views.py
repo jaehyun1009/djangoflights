@@ -1,4 +1,3 @@
-from django.contrib.auth import forms
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -6,6 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, DetailView, DeleteView
+from django.conf import settings
 from .forms import SearchAirportForm
 from .models import Airport, Profile, Ticket
 from decimal import Decimal
@@ -124,8 +124,13 @@ def airports_index(request):
 def airports_detail(request, airport_id):
   if (request.user.id is not None):
     profile = Profile.objects.get(id=request.user.id)
+    airport = Airport.objects.get(id=airport_id)
+    airport_details = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
+    air_pollution = requests.get(f'http://api.openweathermap.org/data/2.5/air_pollution?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
     return render(request, 'main_app/airport_detail.html', {
-      'airport': Airport.objects.get(id=airport_id),
+      'airport': airport,
+      'airport_details': airport_details,
+      'air_pollution': air_pollution,
       'profile': profile,
       'profile_airport': profile.airport.all()
     })
