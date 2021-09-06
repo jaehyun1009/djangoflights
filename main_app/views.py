@@ -42,6 +42,9 @@ class Home(LoginView):
 class TicketList(LoginRequiredMixin, ListView):
   model = Ticket
 
+  def get_queryset(self):
+    return Ticket.objects.filter(profile_id=self.request.user.id)
+
 class TicketDetail(LoginRequiredMixin, DetailView):
   model = Ticket
 

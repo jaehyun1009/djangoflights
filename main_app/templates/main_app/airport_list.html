@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Your Airports</h1>
-<div class='card-columns'>
+<div class='row'>
   {% for airport in airports %}
-    <div class='card'>
-      <div class='card-body'>
-        <p><b>{{airport.name}}</b></p>
-        <p><b>Airport Code:</b><br />{{airport.iata}}</p>
-        <p><b>Country Code:</b><br />{{airport.iso}}</p>
-        <a href={% url 'airports_detail' airport.id %} class='btn btn-info' role='button'>Details</a>
+    <div class='col-sm-4'>
+      <div class='card'>
+        <div class='card-body'>
+          <p><b>{{airport.name}}</b></p>
+          <p><b>Airport Code:</b><br />{{airport.iata}}</p>
+          <p><b>Country Code:</b><br />{{airport.iso}}</p>
+          <a href={% url 'airports_detail' airport.id %} class='btn btn-info' role='button'>Details</a>
+        </div>
       </div>
     </div>
   {% endfor %}

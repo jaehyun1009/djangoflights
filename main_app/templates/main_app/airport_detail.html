@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 style="font-size:6em;">{{airport.iata}}</h1>
+<h1 style="font-size:8em;">{{airport.iata}}</h1>
 <h1>{{airport}}</h1>
 {% if user.is_authenticated %}
   {% if airport in profile_airport %}
