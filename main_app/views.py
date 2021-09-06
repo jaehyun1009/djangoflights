@@ -12,6 +12,7 @@ from decimal import Decimal
 from math import radians, cos, sin, asin, sqrt, log
 import re
 import requests
+from datetime import datetime
 
 # Source: https://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points
 def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
@@ -121,29 +122,47 @@ def airports_index(request):
     'airports': airports
   })
 
+def k_to_f(k):
+  return int((k - 273.15)*(9/5)+32)
+
 def airports_detail(request, airport_id):
   if (request.user.id is not None):
     profile = Profile.objects.get(id=request.user.id)
     airport = Airport.objects.get(id=airport_id)
     airport_details = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
     air_pollution = requests.get(f'http://api.openweathermap.org/data/2.5/air_pollution?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
+    img_url = f"http://openweathermap.org/img/wn/{airport_details['weather'][0]['icon']}@2x.png"
+    airport_details['visibility'] = round(airport_details['visibility']/1000, 3)
+    temps = {
+      'temp': k_to_f(airport_details['main']['temp']),
+      'feels_like': k_to_f(airport_details['main']['feels_like']),
+      'temp_min': k_to_f(airport_details['main']['temp_min']),
+      'temp_max': k_to_f(airport_details['main']['temp_max'])
+    }
+    sunrise = 0
+    sunset = 0
     air_pollution_index = air_pollution['list'][0]['main']['aqi']
     air_pollution_level = 'Good'
     if air_pollution_index == 2:
-      air_pollution_level = 'Fair'
-    elif air_pollution_index == 3:
       air_pollution_level = 'Moderate'
-    elif air_pollution_index == 4:
+    elif air_pollution_index == 3:
       air_pollution_level = 'Poor'
+    elif air_pollution_index == 4:
+      air_pollution_level = 'Unhealthy'
     elif air_pollution_index == 5:
-      air_pollution_level = 'Very Poor'
+      air_pollution_level = 'Very Unhealthy'
     return render(request, 'main_app/airport_detail.html', {
+      'profile': profile,
+      'profile_airport': profile.airport.all(),
       'airport': airport,
       'airport_details': airport_details,
       'air_pollution': air_pollution,
-      'air_pollution_level': air_pollution_level,
-      'profile': profile,
-      'profile_airport': profile.airport.all()
+      'img_url': img_url,
+      'temps': temps,
+      'sunrise': sunrise,
+      'sunset': sunset,
+      'air_pollution_index': air_pollution_index,
+      'air_pollution_level': air_pollution_level
     })
   else:
     return render(request, 'main_app/airport_detail.html', {

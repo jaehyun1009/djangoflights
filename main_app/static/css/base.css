@@ -2,6 +2,12 @@
 
 body {
   font-family: 'Glory', sans-serif;
+  background-image:url('../images/airport_lounge.jpeg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: bottom right;
 }
 
 .div-base {

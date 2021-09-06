@@ -1,0 +1,28 @@
+.total {
+  display: flex;
+}
+
+.upper-half-airport {
+
+}
+
+.lower-half-airport {
+
+}
+
+.airport-name {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  width: 70vw;
+  text-align: center;
+}
+
+.weather {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  width: 35vw;
+}
+.pollution {
+  padding: 20px;
+  width: 25vw;
+}
