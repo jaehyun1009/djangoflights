@@ -20,23 +20,24 @@ body {
 
 .base-right {
   width: 100vw;
+  padding: 25px;
   overflow: scroll;
 }
 
-.main-list {
-  list-style-type: none;
-}
-
-.main-list > li > a {
+.nav-list > p, a {
   color: white;
   font-size: 24px;
 }
 
-.main-list > li > a:hover {
+.nav-list > p > a:hover {
   color: limegreen;
   text-decoration: none;
 }
 
-.base-right {
-  padding: 25px;
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 94vh;
+  justify-content: space-between;
 }

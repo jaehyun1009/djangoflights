@@ -7,7 +7,7 @@ body {
 
 .ticket-form-outer {
   display: flex;
-  height: 94vh;
+  height: 90vh;
   justify-content: space-around;
   align-items: center;
 }

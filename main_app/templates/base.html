@@ -15,29 +15,43 @@
   <body>
     <div class='div-base'>
       <div class='base-left'>
-        <a href={% url 'about' %}>
-          <img
-            width='205px'
-            src={% static 'images/logo.svg' %}
-            alt='Django Flights'
-          >
-        </a>
-        <br />
-        <br />
-        <br />
-        <nav>
-          <ul class='main-list'>
-            <li><a href={% url 'search' %}>Search</a></li>
+        <div class='nav'>
+          <div class='nav-logo'>
+            <a href={% url 'about' %}>
+              <img
+                width='180px'
+                src={% static 'images/logo.svg' %}
+                alt='Django Flights'
+              >
+            </a>
+          </div>
+          <div class='nav-list'>
+            <p><a href={% url 'search' %}>Search</a></p>
             {% if user.is_authenticated %}
-              <li><a href={% url 'airports_index' %}>Your Airports</a></li>
-              <li><a href={% url 'tickets_index' %}>Your Tickets</a></li>
-              <li><a href={% url 'logout' %}>Logout</a></li>
+              <p>{{user}}</p>
+              <p><a href={% url 'airports_index' %}>Your Airports</a></p>
+              <p><a href={% url 'tickets_index' %}>Your Tickets</a></p>
+              <p><a href={% url 'logout' %}>Logout</a></p>
             {% else %}
-              <li><a href={% url 'home' %}>Login</a></li>
-              <li><a href={% url 'signup' %}>Signup</a></li>
+              <p><a href={% url 'home' %}>Login</a></p>
+              <p><a href={% url 'signup' %}>Signup</a></p>
             {% endif %}
-          </ul>
-        </nav>
+          </div>
+          {% if user.is_authenticated %}
+          <div class='nav-list' style='max-width: 180px;'>
+            <p>Logged in as: {{user}}</p>
+          </div>
+          {% endif %}
+          <div class='nav-img'>
+            <a href='https://github.com/jaehyun1009/djangoflights' target='_blank'>
+              <img
+                width='60px'
+                src={% static 'images/github.svg' %}
+                alt='Github Cat'
+              />
+            </a>
+          </div>
+        </div>
       </div>
       <div class='base-right'>
         {% block content %}
