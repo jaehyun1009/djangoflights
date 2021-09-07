@@ -28,3 +28,11 @@
   width: 300px;
   text-align: center;
 }
+
+.inner-div-about {
+  width: 600px;
+}
+
+.inner-div-about > h1 {
+  text-align: center;
+}
