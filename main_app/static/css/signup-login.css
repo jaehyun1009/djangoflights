@@ -51,7 +51,7 @@
   margin-bottom: 40px;
 }
 
-#django-trademark-link {
+.django-link {
   color: limegreen;
   font-size: 1em;
 }
