@@ -37,6 +37,14 @@
   text-align: center;
 }
 
+.inner-div-about > img {
+  display: block;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+}
+
 #django-trademark-link {
   color: limegreen;
 }

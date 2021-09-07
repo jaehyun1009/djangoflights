@@ -9,21 +9,18 @@ from django.conf import settings
 from .forms import SearchAirportForm
 from .models import Airport, Profile, Ticket
 from decimal import Decimal
-from math import radians, cos, sin, asin, sqrt, log
+from math import radians, cos, sin, asin, sqrt
 import re
 import requests
 from datetime import datetime
 
-# Source: https://stackoverflow.com/questions/4913349/haversine-formula-in-python-bearing-and-distance-between-two-gps-points
 def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
   radius = 3959.87433
   d_lat = radians(dest_lat - origin_lat)
   d_lon = radians(dest_lon - origin_lon)
   lat1 = radians(origin_lat)
   lat2 = radians(dest_lat)
-  a = sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2
-  c = 2*asin(sqrt(a))
-  return radius*c
+  return 2*radius*asin(sqrt(sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2))
 
 def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
   base = 48
@@ -180,7 +177,6 @@ def airports_detail(request, airport_id):
   air_pollution_level = get_index(air_pollution_index)
   if (request.user.id is not None):
     profile = Profile.objects.get(id=request.user.id)
-
     return render(request, 'main_app/airport_detail.html', {
       'profile': profile,
       'profile_airport': profile.airport.all(),

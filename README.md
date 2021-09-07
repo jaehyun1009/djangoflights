@@ -1,4 +1,8 @@
-# Django Flights
+<p align="center">
+  <img src='./main_app/static/images/logo-dark.svg' width='500'>
+</p>
+
+## Intro
 
 ## Technologies Used
 
