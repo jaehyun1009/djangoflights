@@ -1,0 +1,39 @@
+.ticket-form-outer {
+  display: flex;
+  height: 94vh;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.ticket-form-outer > div {
+  width: 400px;
+  height: 300px;
+  padding: 25px;
+  border-radius: 25px;
+}
+
+.ticket-form-left {
+  background-color: rgba(9, 46, 32, 0.8);
+  color: white;
+}
+
+.ticket-form-left > h1 {
+  text-align: center;
+}
+
+.ticket-form-left-button {
+  text-align: center;
+  margin: 10px;
+}
+
+.ticket-form-right {
+  background-color: rgba(50, 205, 50, 0.8);
+  color: white;
+}
+
+@media (max-width: 1100px) {
+  .ticket-form-outer {
+    display: flex;
+    flex-direction: column;
+  }
+}

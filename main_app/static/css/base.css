@@ -35,7 +35,7 @@ body {
 }
 
 .main-list > li > a:hover {
-  color: lightgreen;
+  color: limegreen;
   text-decoration: none;
 }
 
