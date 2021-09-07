@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'djangoflights.wsgi.application'
+WSGI_APPLICATION = 'django-flights.wsgi.application'
 
 
 # Database
