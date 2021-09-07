@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/signup-login.css' %}"
+/>
+{% endblock head %}
 {% block content %}
-<section>
-  {% if not user.is_authenticated %}
-    <form action={% url 'home' %} method="post">
-      <h1>Login</h1>
-      {% csrf_token %}
-      {{form.as_p}}
-      <input type="hidden" name="next" value={{next}}>
-      <button type="submit">Login</button>
-    </form>
-  {% endif %}
+<div class='outer-div'>
+  <div class='inner-div-login'>
+    {% if not user.is_authenticated %}
+      <form action={% url 'home' %} method="post">
+        <h1>Login</h1>
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="hidden" name="next" value={{next}}>
+        <button type="submit" class='btn btn-primary'>Login</button>
+      </form>
+    {% endif %}
+  </div>
 </section>
 {% endblock content %}

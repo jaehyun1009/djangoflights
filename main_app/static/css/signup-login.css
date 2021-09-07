@@ -1,0 +1,30 @@
+.outer-div {
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.outer-div > div {
+  background-color: rgba(9, 46, 32, 0.8);
+  color: white;
+  padding: 25px;
+  border-radius: 25px;
+}
+
+.inner-div-signup {
+  width: 640px;
+}
+
+.inner-div-signup > h1 {
+  text-align: center;
+}
+
+.signup-button {
+  text-align: center;
+}
+
+.inner-div-login {
+  width: 300px;
+  text-align: center;
+}

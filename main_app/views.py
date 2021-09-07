@@ -138,23 +138,24 @@ def get_index(idx):
   return level
 
 def airports_detail(request, airport_id):
+  airport = Airport.objects.get(id=airport_id)
+  airport_details = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
+  air_pollution = requests.get(f'http://api.openweathermap.org/data/2.5/air_pollution?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
+  img_url = f"http://openweathermap.org/img/wn/{airport_details['weather'][0]['icon']}@2x.png"
+  airport_details['visibility'] = round(airport_details['visibility']/1000, 3)
+  temps = {
+    'temp': k_to_f(airport_details['main']['temp']),
+    'feels_like': k_to_f(airport_details['main']['feels_like']),
+    'temp_min': k_to_f(airport_details['main']['temp_min']),
+    'temp_max': k_to_f(airport_details['main']['temp_max'])
+  }
+  sunrise = datetime.fromtimestamp(airport_details['sys']['sunrise'] + airport_details['timezone']).strftime('%I:%M %p')
+  sunset = datetime.fromtimestamp(airport_details['sys']['sunset'] + airport_details['timezone']).strftime('%I:%M %p')
+  air_pollution_index = air_pollution['list'][0]['main']['aqi']
+  air_pollution_level = get_index(air_pollution_index)
   if (request.user.id is not None):
     profile = Profile.objects.get(id=request.user.id)
-    airport = Airport.objects.get(id=airport_id)
-    airport_details = requests.get(f'https://api.openweathermap.org/data/2.5/weather?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
-    air_pollution = requests.get(f'http://api.openweathermap.org/data/2.5/air_pollution?lat={airport.lat}&lon={airport.lon}&appid={settings.WEATHER_API}').json()
-    img_url = f"http://openweathermap.org/img/wn/{airport_details['weather'][0]['icon']}@2x.png"
-    airport_details['visibility'] = round(airport_details['visibility']/1000, 3)
-    temps = {
-      'temp': k_to_f(airport_details['main']['temp']),
-      'feels_like': k_to_f(airport_details['main']['feels_like']),
-      'temp_min': k_to_f(airport_details['main']['temp_min']),
-      'temp_max': k_to_f(airport_details['main']['temp_max'])
-    }
-    sunrise = datetime.fromtimestamp(airport_details['sys']['sunrise'] + airport_details['timezone']).strftime('%I:%M %p')
-    sunset = datetime.fromtimestamp(airport_details['sys']['sunset'] + airport_details['timezone']).strftime('%I:%M %p')
-    air_pollution_index = air_pollution['list'][0]['main']['aqi']
-    air_pollution_level = get_index(air_pollution_index)
+
     return render(request, 'main_app/airport_detail.html', {
       'profile': profile,
       'profile_airport': profile.airport.all(),
@@ -170,7 +171,15 @@ def airports_detail(request, airport_id):
     })
   else:
     return render(request, 'main_app/airport_detail.html', {
-      'airport': Airport.objects.get(id=airport_id),
+      'airport': airport,
+      'airport_details': airport_details,
+      'air_pollution': air_pollution,
+      'img_url': img_url,
+      'temps': temps,
+      'sunrise': sunrise,
+      'sunset': sunset,
+      'air_pollution_index': air_pollution_index,
+      'air_pollution_level': air_pollution_level
     })
 
 @login_required
