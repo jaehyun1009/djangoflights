@@ -2,13 +2,12 @@
 {% load static %}
 
 {% block content %}
-<h1>Delete Ticket?</h1>
-<h2>Are you sure you want to delete {{ticket}}?</h2>
+<h1>Get Refund for {{ticket}}?</h1>
 <form action="" method="POST">
   {% csrf_token %}
   <a href={% url 'tickets_detail' ticket.id %} class='btn btn-warning' role='button'>
     Cancel
   </a>
-  <button type="submit" class='btn btn-danger'>Yes - Delete!</button>
+  <button type="submit" class='btn btn-danger'>Yes - Get refund!</button>
 </form>
 {% endblock %}

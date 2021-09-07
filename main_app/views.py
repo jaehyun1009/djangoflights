@@ -26,14 +26,24 @@ def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
   return radius*c
 
 def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
-  base = 50
+  base = 48
   modifier = 1
   if seat_class == 'B':
     modifier = 1.5
   if seat_class == 'F':
     modifier = 3
   distance = calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon)
-  return base + int(modifier * distance/10)
+  return base + int(modifier * distance/12)
+
+def calculate_travel_time(miles):
+  minutes = round((miles/475) * 60)
+  hours = int(minutes/60)
+  if hours == 0:
+    return f'{minutes} minutes'
+  minutes = minutes % 60
+  if minutes == 0:
+    return f'{hours} hours'
+  return f'{hours} hours {minutes} minutes'
 
 class Home(LoginView):
   template_name = 'home.html'
@@ -52,6 +62,7 @@ class TicketDetail(LoginRequiredMixin, DetailView):
     origin = context['object'].origin
     dest = context['object'].destination
     context['distance'] = round(calculate_distance(origin.lat, origin.lon, dest.lat, dest.lon),2)
+    context['travel_time'] = calculate_travel_time(context['distance'])
     return context
 
 class TicketDelete(LoginRequiredMixin, DeleteView):
