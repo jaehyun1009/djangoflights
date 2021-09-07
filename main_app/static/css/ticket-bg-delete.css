@@ -1,0 +1,8 @@
+@import 'signup-login.css';
+
+body {
+  background-image:url('../images/checkin.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

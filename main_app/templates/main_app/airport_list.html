@@ -10,6 +10,7 @@
 {% block content %}
 <h1><span>Your Airports</span></h1>
 <br />
+{% if airports %}
 <table class='table'>
   <thead>
     <tr>
@@ -30,4 +31,12 @@
     {% endfor %}
   </tbody>
 </table>
+{% else %}
+<div class='no-object-info'>
+  <div>
+    <p>You have no airports saved on your profile! Please go <a href={% url 'search' %}>here</a> to search and add airports to your airport list!</p>
+    <p><b>Note that you need to add at least 2 different airports to purchase a ticket.</b></p>
+  </div>
+</div>
+{% endif %}
 {% endblock content %}

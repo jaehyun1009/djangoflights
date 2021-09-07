@@ -1,3 +1,10 @@
+body {
+  background-image:url('../images/checkin.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
 .ticket-outer-div {
   display: flex;
   flex-direction: column;
@@ -57,11 +64,11 @@
 }
 
 .ticket-inner-div-1 > div > h1 {
-  font-size: 6em;
+  font-size: 7em;
 }
 
 .ticket-detail-buttons {
-  margin: 15px;
+  margin: 25px;
 }
 
 .ticket-inner-div-2 {

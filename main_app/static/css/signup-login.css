@@ -36,3 +36,7 @@
 .inner-div-about > h1 {
   text-align: center;
 }
+
+#django-trademark-link {
+  color: limegreen;
+}
