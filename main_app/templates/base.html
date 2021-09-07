@@ -28,7 +28,6 @@
           <div class='nav-list'>
             <p><a href={% url 'search' %}>Search</a></p>
             {% if user.is_authenticated %}
-              <p>{{user}}</p>
               <p><a href={% url 'airports_index' %}>Your Airports</a></p>
               <p><a href={% url 'tickets_index' %}>Your Tickets</a></p>
               <p><a href={% url 'logout' %}>Logout</a></p>
