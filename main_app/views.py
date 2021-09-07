@@ -14,13 +14,15 @@ import re
 import requests
 from datetime import datetime
 
+# https://en.wikipedia.org/wiki/Haversine_formula
 def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
   radius = 3959.87433
-  d_lat = radians(dest_lat - origin_lat)
-  d_lon = radians(dest_lon - origin_lon)
   lat1 = radians(origin_lat)
   lat2 = radians(dest_lat)
-  return 2*radius*asin(sqrt(sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2))
+  d_lat = radians(dest_lat - origin_lat)
+  d_lon = radians(dest_lon - origin_lon)
+  angle = asin(sqrt(sin(d_lat/2)**2 + cos(lat1)*cos(lat2)*sin(d_lon/2)**2))
+  return 2*radius*angle
 
 def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
   base = 48
