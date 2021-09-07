@@ -25,6 +25,11 @@
       </table>
       <div class='ticket-form-left-button'>
         <button type="submit" class='btn btn-success'>Submit</button>
+        {% if object %}
+          <a href={% url 'tickets_detail' ticket.id %} class='btn btn-warning' role='button'>
+            Cancel
+          </a>
+        {% endif %}
       </div>
     </form>
   </div>

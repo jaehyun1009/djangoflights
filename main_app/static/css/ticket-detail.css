@@ -58,13 +58,13 @@ body {
 }
 
 .ticket-inner-div-1 > div {
-  padding: 20px;
   text-align: center;
   width: 240px;
 }
 
 .ticket-inner-div-1 > div > h1 {
-  font-size: 7em;
+  font-size: 6em;
+  padding: 15px 0 0 0;
 }
 
 .ticket-detail-buttons {
