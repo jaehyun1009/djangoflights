@@ -1,0 +1,55 @@
+.ticket-outer-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 94vh;
+}
+
+.ticket-inner-div {
+  width: 800px;
+  background-color: white;
+  text-align: center;
+  border-radius: 30px;
+  box-shadow: 10px 10px;
+}
+
+.ticket-inner-div > h1 {
+  background-color: black;
+  color: white;
+  font-size: 3em;
+  padding: 10px;
+}
+
+#upper-h1 {
+  border-radius: 30px 30px 0 0;
+}
+
+.ticket-inner-div-1 {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ticket-inner-div-1 > div {
+  padding: 20px;
+  text-align: center;
+  width: 240px;
+}
+
+.ticket-inner-div-1 > div > h1 {
+  font-size: 6em;
+}
+
+.ticket-detail-buttons {
+  margin: 15px;
+}
+
+.ticket-inner-div-2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticket-inner-div-3 {
+  display: flex;
+  justify-content: space-between;
+}
