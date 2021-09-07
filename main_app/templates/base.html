@@ -24,6 +24,10 @@
                 alt='Django Flights'
               >
             </a>
+            {% if user.is_authenticated %}
+              <br /><br />
+              <span id='logged-in-user'><p>Welcome, {{user}}</p></span>
+            {% endif %}
           </div>
           <div class='nav-list'>
             <p><a href={% url 'search' %}>Search</a></p>
@@ -36,11 +40,7 @@
               <p><a href={% url 'signup' %}>Signup</a></p>
             {% endif %}
           </div>
-          {% if user.is_authenticated %}
-          <div class='nav-list' style='max-width: 180px;'>
-            <p>Logged in as: {{user}}</p>
-          </div>
-          {% endif %}
+          <div></div>
           <div class='nav-img'>
             <a href='https://github.com/jaehyun1009/djangoflights' target='_blank'>
               <img
