@@ -1,13 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block head %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'css/signup-login.css' %}"
+/>
+{% endblock head %}
 {% block content %}
-<h1>Get Refund for {{ticket}}?</h1>
-<form action="" method="POST">
-  {% csrf_token %}
-  <a href={% url 'tickets_detail' ticket.id %} class='btn btn-warning' role='button'>
-    Cancel
-  </a>
-  <button type="submit" class='btn btn-danger'>Yes - Get refund!</button>
-</form>
+<div class='outer-div'>
+  <div class='inner-div-about'>
+    <h1>Get Refund for {{ticket}}?</h1>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class='signup-button'>
+        <a href={% url 'tickets_detail' ticket.id %} class='btn btn-warning' role='button'>
+          Cancel
+        </a>
+        <button type="submit" class='btn btn-danger'>Yes - Get refund!</button>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

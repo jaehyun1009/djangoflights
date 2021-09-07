@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, ListView, DetailView, DeleteView
+from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from django.conf import settings
 from .forms import SearchAirportForm
 from .models import Airport, Profile, Ticket
@@ -65,10 +65,6 @@ class TicketDetail(LoginRequiredMixin, DetailView):
     context['travel_time'] = calculate_travel_time(context['distance'])
     return context
 
-class TicketDelete(LoginRequiredMixin, DeleteView):
-  model = Ticket
-  success_url = '/tickets/'
-
 class TicketCreate(LoginRequiredMixin, CreateView):
   model = Ticket
   fields = ['seat', 'date', 'origin', 'destination']
@@ -83,6 +79,24 @@ class TicketCreate(LoginRequiredMixin, CreateView):
   def form_valid(self, form):
     if form.instance.origin == form.instance.destination:
       return super().form_invalid(form)
+    form.instance.seat_class = 'E'
+    if re.search(r'0[1-4][A-D]', form.instance.seat):
+      form.instance.seat_class = 'F'
+    if re.search(r'0[5-9][A-G]|1[0-5][A-G]', form.instance.seat):
+      form.instance.seat_class = 'B'
+    form.instance.price = calculate_price(form.instance.seat_class, form.instance.origin.lat, form.instance.origin.lon, form.instance.destination.lat, form.instance.destination.lon)
+    form.instance.profile = Profile.objects.get(id=self.request.user.id)
+    return super().form_valid(form)
+
+class TicketDelete(LoginRequiredMixin, DeleteView):
+  model = Ticket
+  success_url = '/tickets/'
+
+class TicketUpdate(LoginRequiredMixin, UpdateView):
+  model = Ticket
+  fields = ['seat']
+
+  def form_valid(self, form):
     form.instance.seat_class = 'E'
     if re.search(r'0[1-4][A-D]', form.instance.seat):
       form.instance.seat_class = 'F'

@@ -13,7 +13,11 @@
 {% block content %}
 <div class='ticket-form-outer'>
   <div class='ticket-form-left'>
-    <h1>New Ticket</h1>
+    {% if object %}
+      <h1>Change Seat</h1>
+    {% else %}
+      <h1>New Ticket</h1>
+    {% endif %}
     <form action='' method="post">
       {% csrf_token %}
       <table>

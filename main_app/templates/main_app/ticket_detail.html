@@ -68,8 +68,9 @@
     </div>
   </div>
   <div class='ticket-detail-buttons'>
-    <a href={% url 'tickets_index' %} class='btn btn-dark' role='button'>Back</a>
-    <a href={% url 'tickets_delete' ticket.id %} class='btn btn-danger' role='button'>Get Refund</a>
+    <a href={% url 'tickets_index' %} class='btn btn-dark btn-lg' role='button'>Back</a>
+    <a href={% url 'tickets_update' ticket.id %} class='btn btn-primary btn-lg' role='button'>Change Seat</a>
+    <a href={% url 'tickets_delete' ticket.id %} class='btn btn-danger btn-lg' role='button'>Get Refund</a>
   </div>
 </div>
 {% endblock content %}
