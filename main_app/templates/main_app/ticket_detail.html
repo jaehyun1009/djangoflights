@@ -12,7 +12,13 @@
 {% endblock head %}
 {% block content %}
 <div class='ticket-outer-div'>
-  <div class='ticket-inner-div'>
+  <div class='ticket-inner-div
+    {% if ticket.get_seat_class_display == "First Class" %}
+      first-class-primary
+    {% elif ticket.get_seat_class_display == "Business" %}
+      business-primary
+    {% endif %}
+  '>
     <h1 id='upper-h1'>{{ticket}}</h1>
     <div class='ticket-inner-div-1'>
       <div>
