@@ -1,1 +1,1 @@
-web: gunicorn djangoflights.wsgi
+web: gunicorn django-flights.wsgi
