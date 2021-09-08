@@ -12,7 +12,7 @@ from decimal import Decimal
 from math import radians, cos, sin, asin, sqrt
 import re
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # https://en.wikipedia.org/wiki/Haversine_formula
 def calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon):
@@ -34,6 +34,16 @@ def calculate_price(seat_class, origin_lat, origin_lon, dest_lat, dest_lon):
   distance = calculate_distance(origin_lat, origin_lon, dest_lat, dest_lon)
   return base + int(modifier * distance/12)
 
+def calculate_travel_time(miles):
+  minutes = round((miles/475) * 60)
+  hours = int(minutes/60)
+  if hours == 0:
+    return f'{minutes} minutes'
+  minutes = minutes % 60
+  if minutes == 0:
+    return f'{hours} hours'
+  return f'{hours} hours {minutes} minutes'
+
 class Home(LoginView):
   template_name = 'home.html'
 
@@ -51,7 +61,7 @@ class TicketDetail(LoginRequiredMixin, DetailView):
     origin = context['object'].origin
     dest = context['object'].destination
     context['distance'] = round(calculate_distance(origin.lat, origin.lon, dest.lat, dest.lon),2)
-    context['travel_time'] = context['object'].date + timedelta(minutes=round((context['distance']/475) * 60))
+    context['travel_time'] = calculate_travel_time(context['distance'])
     return context
 
 class TicketCreate(LoginRequiredMixin, CreateView):
